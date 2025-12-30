@@ -1,0 +1,30 @@
+name: Deploy to GitHub Pages
+on:
+  push:
+    branches: [ main ]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: 'stable'
+      
+      # 關鍵：這會幫你生出 index.html 等網頁必要檔案
+      - name: Initialize Web
+        run: flutter create . --platforms web 
+
+      - name: Install dependencies
+        run: flutter pub get
+
+      # 使用 HTML 渲染模式可避免大部分空白畫面問題
+      - name: Build Web
+        run: flutter build web --release --base-href "/spraymasterpro/" --web-render html --no-tree-shake-icons
+
+      - name: Deploy
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./build/web
+          force_orphan: true
