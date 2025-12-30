@@ -1,0 +1,7 @@
+{
+  "name": "Copy of SprayMaster Pro - Artwork Paint Estimator",
+  "description": "可根據圖面估算需要使用的噴漆顏色及數量工具",
+  "requestFramePermissions": [
+    "camera"
+  ]
+}
